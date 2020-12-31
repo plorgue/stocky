@@ -1,0 +1,172 @@
+﻿<Window x:Class="Stocky.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stocky"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="1300"
+        Background="{StaticResource backgroundBrushMain}"
+        ResizeMode="CanMinimize">
+
+    <Window.Resources>
+        <Style x:Key="{x:Type ListViewItem}" TargetType="ListViewItem">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource backgroundBrushMain}" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource backgroundBrushMain}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="600"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+        
+        <!--#region COLONNE GAUCHE-->
+        <StackPanel Grid.Column="0">
+            
+            <TextBlock Text="Recherche" Style="{StaticResource titleStyle}"/>
+            <TextBox x:Name="tBoxAdd_search" Text="Mots clés"  Style="{StaticResource editTextStyle}" GotFocus="tBoxAdd_Com_GotFocus" LostFocus="tBoxAdd_Com_LostFocus"
+                     TextChanged="tBoxAdd_search_TextChanged"/>
+
+            <TextBlock Text="Ajouter" Style="{StaticResource titleStyle}"/>
+            <TextBox x:Name="tBoxAdd_title" Text="Titre" Style="{StaticResource editTextStyle}" GotFocus="tBoxAdd_Com_GotFocus" LostFocus="tBoxAdd_Com_LostFocus"/>
+            <TextBox x:Name="tBoxAdd_link" Text="Lien" Style="{StaticResource editTextStyle}" GotFocus="tBoxAdd_Com_GotFocus" LostFocus="tBoxAdd_Com_LostFocus"/>
+            <TextBox x:Name="tBoxAdd_id" Text="Identifiant" Style="{StaticResource editTextStyle}" GotFocus="tBoxAdd_Com_GotFocus" LostFocus="tBoxAdd_Com_LostFocus"/>
+            <Grid Margin="30,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="bt_id1" Style="{StaticResource buttonFilledStyle}" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Click="bt_id1_Click">Identifiant 1</Button>
+                <Button x:Name="bt_id2" Style="{StaticResource buttonFilledStyle}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Click="bt_id2_Click">Identifiant 2</Button>
+            </Grid>
+            <TextBox x:Name="tBoxAdd_mdp" Text="Mot de passe" Style="{StaticResource editTextStyle}" GotFocus="tBoxAdd_Com_GotFocus" LostFocus="tBoxAdd_Com_LostFocus"/>
+            <Grid Margin="30,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="125"/>
+                    <ColumnDefinition Width="125"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="27"/>
+                </Grid.RowDefinitions>
+                <CheckBox x:Name="checkB_min" Style="{StaticResource checkBoxStyle}" Grid.Column="0" Grid.Row="0">Lettre minusc.</CheckBox>
+                <CheckBox x:Name="checkB_maj" Style="{StaticResource checkBoxStyle}" Grid.Column="1" Grid.Row="0">Lettre majusc.</CheckBox>
+                <CheckBox x:Name="checkB_ch" Style="{StaticResource checkBoxStyle}" Grid.Column="0" Grid.Row="1">Chiffres</CheckBox>
+                <CheckBox x:Name="checkB_spe" Style="{StaticResource checkBoxStyle}" Grid.Column="1" Grid.Row="1">Carac. spé</CheckBox>
+
+                <TextBlock Text="Longueur :" Style="{StaticResource descStyle}" Margin="20,7,0,0" 
+                           FontFamily="Roboto" FontSize="15"
+                           Grid.Column="0" Grid.Row="2"/>
+                <TextBox x:Name="tBox_lenght" Text="10" Style="{StaticResource editTextStyle}" Margin="0,5,30,0" Width="40" 
+                         FontSize="14" Foreground="{StaticResource foregroundBrush}" MaxLength="2"  
+                         Grid.Column="1" Grid.Row="2"
+                         TextChanged="tBox_lenght_TextChanged"/>
+
+            </Grid>
+            <Button x:Name="bt_genMdp" Style="{StaticResource buttonFilledStyle}" HorizontalAlignment="Right" Margin="0,15,20,0"
+                    Click="bt_genMdp_Click">Générer</Button>
+            <TextBox x:Name="tBoxAdd_com" Text="Commentaire" Style="{StaticResource editTextStyle}" GotFocus="tBoxAdd_Com_GotFocus" LostFocus="tBoxAdd_Com_LostFocus"/>
+            <Button x:Name="bt_addMdp" Style="{StaticResource buttonFilledStyle}" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="17"
+                    Click="bt_addMdp_Click">AJOUTER</Button>
+        </StackPanel>
+        <!--#endregion-->
+        
+        <!--#region COLONNE MILIEU-->
+        <ListView 
+            x:Name="liste"
+            Grid.Column="1" Margin="20"
+            ItemsSource="{Binding elements}"
+            Style="{StaticResource listViewStyle}"
+            SelectionChanged="liste_SelectionChanged">
+            
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn 
+                        Header="Titre" 
+                        Width="160"
+                        DisplayMemberBinding="{Binding Titre}"></GridViewColumn>
+                    <GridViewColumn
+                        Header="Identifiant"
+                        Width="220"
+                        DisplayMemberBinding="{Binding Identifiant}"></GridViewColumn>
+                    <GridViewColumn
+                        Header="Lien"
+                        Width="180"
+                        DisplayMemberBinding="{Binding Lien}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Border x:Name="connection_layout" BorderBrush="{StaticResource foregroundBrush}" BorderThickness="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,80" Padding="10,10,10,40">
+            <Grid  >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Mot de passe principal" Style="{StaticResource titleStyle}" Grid.Row="0"/>
+                <PasswordBox x:Name="tBox_mainPwd" Grid.Row="2" Style="{StaticResource passwordBoxStyle}"
+                         KeyDown="PasswordBox_KeyDown"/>
+                <Button x:Name="bt_entrer" Style="{StaticResource buttonFilledStyle}" Grid.Row="3"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,0"
+                        Click="bt_entrer_Click">ENTRER</Button>
+                <TextBlock x:Name="tBlock_saisi_errer" Text="Mot de passe invalide" FontSize="14" Foreground="OrangeRed" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,0,0,3"
+                           Opacity="0"/>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+        
+        <!--#region COLONNE DROITE-->
+        <StackPanel Grid.Column="2" >
+            <TextBlock Text="Mot de passe" Style="{StaticResource titleStyle}" />
+            <TextBlock Text="Titre:" Style="{StaticResource descStyle}"/>
+            <TextBox x:Name="tBoxShow_title" Style="{StaticResource editShowTextStyle}"  MouseDoubleClick="tBoxShow_MouseDoubleClick"/>
+            <TextBlock Text="Lien:" Style="{StaticResource descStyle}"/>
+            <TextBox x:Name="tBoxShow_link" Style="{StaticResource editShowTextStyle}"  MouseDoubleClick="tBoxShow_MouseDoubleClick"/>
+            <TextBlock Text="Identifiant:" Style="{StaticResource descStyle}"/>
+            <TextBox x:Name="tBoxShow_id" Style="{StaticResource editShowTextStyle}"  MouseDoubleClick="tBoxShow_MouseDoubleClick"/>
+            <TextBlock Text="Mot de passe:" Style="{StaticResource descStyle}"/>
+            <TextBox x:Name="tBoxShow_mdp" Style="{StaticResource editShowTextStyle}"  MouseDoubleClick="tBoxShow_MouseDoubleClick"/>
+            <TextBlock Text="Commentaire:" Style="{StaticResource descStyle}" />
+            <TextBox x:Name="tBoxShow_com" Style="{StaticResource editShowTextStyle}" MouseDoubleClick="tBoxShow_MouseDoubleClick"/>
+            <Grid
+                Grid.Column="2"
+                Margin="30,30,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="bt_modify" Style="{StaticResource buttonFilledStyle}" Grid.Column="0" Width="90" HorizontalAlignment="Center"
+                        Click="bt_modify_Click">Modifier</Button>
+                <Button x:Name="bt_suppr" Style="{StaticResource buttonFilledStyle}" Grid.Column="1" Width="90" HorizontalAlignment="Center"
+                        Click="bt_suppr_Click">Supprimer</Button>
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="20" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" Margin="20,0,0,0" Style="{StaticResource buttonLightStyle}"
+                    Click="bt_verou_Click">Vérouillage AUTO: OUI</Button>
+            <Button x:Name="bt_settings" Grid.Column="1" VerticalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,20,0" Width="100" Style="{StaticResource buttonLightStyle}"
+                    Click="bt_settings_Click">Paramètres</Button>
+        </Grid>
+        <!--#endregion-->
+        
+    </Grid>
+</Window>

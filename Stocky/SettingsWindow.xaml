@@ -1,0 +1,78 @@
+﻿<Window x:Class="Stocky.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stocky"
+        mc:Ignorable="d"
+        Title="SettingsWindow" Height="450" Width="800" Background="{StaticResource backgroundBrushMain}"
+        ResizeMode="NoResize">
+    <Grid Margin="0,50,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Raccourci identifiant 1:" Style="{StaticResource descStyle}"
+                   Grid.Column="0" Grid.Row="0" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox x:Name="tBox_id1" Style="{StaticResource editTextSettingsStyle}"
+                 Grid.Column="1" Grid.Row="0"  Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button x:Name="bt_save_id1" Style="{StaticResource buttonFilledStyle}"
+                Grid.Column="2" Grid.Row="0" Height="30" Width="100"
+                Click="bt_save_id1_Click">Enregistrer</Button>
+        
+        <TextBlock Text="Raccourci identifiant 2:" Style="{StaticResource descStyle}"
+                   Grid.Column="0" Grid.Row="1" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox x:Name="tBox_id2" Style="{StaticResource editTextSettingsStyle}"
+                 Grid.Column="1" Grid.Row="1"  Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button x:Name="bt_save_id2" Style="{StaticResource buttonFilledStyle}"
+                Grid.Column="2" Grid.Row="1" Height="30" Width="100"
+                Click="bt_save_id2_Click">Enregistrer</Button>
+
+
+        <TextBlock Text="Mot de passe actuel" Style="{StaticResource descStyle}"
+                   Grid.Column="0" Grid.Row="3" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <PasswordBox x:Name="tBox_currMdp" Style="{StaticResource passwordBoxStyle}"
+                 Grid.Column="1" Grid.Row="3" Width="250" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Text="Nouveau mot de passe" Style="{StaticResource descStyle}"
+                   Grid.Column="0" Grid.Row="4" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <PasswordBox x:Name="tBox_newMdp1" Width="250" Style="{StaticResource passwordBoxStyle}"
+                 Grid.Column="1" Grid.Row="4"  Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Text="Nouveau mot de passe" Style="{StaticResource descStyle}"
+                   Grid.Column="0" Grid.Row="5" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <PasswordBox x:Name="tBox_newMdp2" Width="250" Style="{StaticResource passwordBoxStyle}"
+                 Grid.Column="1" Grid.Row="5"  Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button x:Name="bt_save_mdp"  Style="{StaticResource buttonFilledStyle}"
+                Grid.Column="2" Grid.Row="5" Height="30" Width="100"
+                Click="bt_save_mdp_Click">Enregistrer</Button>
+        <TextBlock x:Name="tBlock_saisi"  Text="Erreur dans la saisi du nouveau mot de passe" Style="{StaticResource descStyle}"
+                 Grid.Column="1" Grid.Row="6" Width="250" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left"
+                   FontFamily="Roboto" Foreground="OrangeRed" FontSize="14" TextWrapping="Wrap" TextAlignment="Center"
+                   Opacity="0"/>
+        <Button x:Name="bt_quit"  Style="{StaticResource buttonFilledStyle}"
+                Grid.Column="2" Grid.Row="6" Height="30" Width="100"
+                VerticalAlignment="Bottom"
+                Click="bt_quit_Click">Sortir</Button>
+        <Button x:Name="bt_import"  Style="{StaticResource buttonFilledStyle}"
+                Grid.Column="1" Grid.Row="6" Height="30" Width="100"
+                VerticalAlignment="Bottom"
+                Click="bt_import_Click">Importer</Button>
+        <Button x:Name="bt_sauvegarde"  Style="{StaticResource buttonFilledStyle}"
+                Grid.Column="0" Grid.Row="6" Height="30" Width="100"
+                VerticalAlignment="Bottom"
+                Click="bt_sauvegarde_Click">Sauvegarde</Button>
+
+
+
+    </Grid>
+</Window>

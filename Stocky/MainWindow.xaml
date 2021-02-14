@@ -119,7 +119,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Mot de passe principal" Style="{StaticResource titleStyle}" Grid.Row="0"/>
                 <PasswordBox x:Name="tBox_mainPwd" Grid.Row="2" Style="{StaticResource passwordBoxStyle}"
-                         KeyDown="PasswordBox_KeyDown"/>
+                         KeyDown="PasswordBox_KeyDown" PasswordChanged="tBox_mainPwd_PasswordChanged"/>
                 <Button x:Name="bt_entrer" Style="{StaticResource buttonFilledStyle}" Grid.Row="3"
                     VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,0"
                         Click="bt_entrer_Click">ENTRER</Button>
@@ -155,6 +155,8 @@
                         Click="bt_suppr_Click">Supprimer</Button>
             </Grid>
         </StackPanel>
+
+        <TextBox x:Name="Tb_Message" Grid.Column="2" Margin="0 0 -240 65"  Style="{StaticResource ResourceKey=MessageStyle}"/>
 
         <Grid Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="20" >
             <Grid.ColumnDefinitions>

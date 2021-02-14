@@ -22,3 +22,27 @@ C:\Users\paull\OneDrive\Documents\11 - Dèv perso\Stocky\Stocky\obj\Debug\Stocky
 C:\Users\paull\OneDrive\Documents\11 - Dèv perso\Stocky\Stocky\obj\Debug\Stocky.exe
 C:\Users\paull\OneDrive\Documents\11 - Dèv perso\Stocky\Stocky\obj\Debug\Stocky.pdb
 C:\Users\paull\OneDrive\Documents\11 - Dèv perso\Stocky\Stocky\obj\Debug\Stocky.csprojAssemblyReference.cache
+D:\Github\Stocky\Stocky\bin\Debug\Stocky.exe.config
+D:\Github\Stocky\Stocky\bin\Debug\Stocky.exe.manifest
+D:\Github\Stocky\Stocky\bin\Debug\Stocky.application
+D:\Github\Stocky\Stocky\bin\Debug\Stocky.exe
+D:\Github\Stocky\Stocky\bin\Debug\Stocky.pdb
+D:\Github\Stocky\Stocky\obj\Debug\Stocky.csprojAssemblyReference.cache
+D:\Github\Stocky\Stocky\obj\Debug\MainWindow.g.cs
+D:\Github\Stocky\Stocky\obj\Debug\SettingsWindow.g.cs
+D:\Github\Stocky\Stocky\obj\Debug\Window1.g.cs
+D:\Github\Stocky\Stocky\obj\Debug\App.g.cs
+D:\Github\Stocky\Stocky\obj\Debug\Stocky_MarkupCompile.cache
+D:\Github\Stocky\Stocky\obj\Debug\Stocky_MarkupCompile.lref
+D:\Github\Stocky\Stocky\obj\Debug\App.baml
+D:\Github\Stocky\Stocky\obj\Debug\MainWindow.baml
+D:\Github\Stocky\Stocky\obj\Debug\SettingsWindow.baml
+D:\Github\Stocky\Stocky\obj\Debug\Window1.baml
+D:\Github\Stocky\Stocky\obj\Debug\Stocky.g.resources
+D:\Github\Stocky\Stocky\obj\Debug\Stocky.Properties.Resources.resources
+D:\Github\Stocky\Stocky\obj\Debug\Stocky.csproj.GenerateResource.cache
+D:\Github\Stocky\Stocky\obj\Debug\Stocky.csproj.CoreCompileInputs.cache
+D:\Github\Stocky\Stocky\obj\Debug\Stocky.exe.manifest
+D:\Github\Stocky\Stocky\obj\Debug\Stocky.application
+D:\Github\Stocky\Stocky\obj\Debug\Stocky.exe
+D:\Github\Stocky\Stocky\obj\Debug\Stocky.pdb

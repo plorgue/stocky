@@ -166,6 +166,25 @@
             <Setter Property="FontFamily" Value="{StaticResource font}" />
             <Setter Property="FontSize" Value="14" />
         </Style>
-       
+
+        <Style x:Key="MessageStyle" TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+            <Setter Property="Panel.ZIndex" Value="10" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#006600" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border Background="#111" BorderBrush="#444" BorderThickness="2" Padding="18 2 18 5" CornerRadius="15">
+                            <ContentPresenter 
+                                    Content="Texte copié !"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Application.Resources>
 </Application>

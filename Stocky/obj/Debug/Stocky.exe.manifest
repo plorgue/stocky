@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Stocky.exe" size="81376">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Stocky.exe" size="82912">
       <assemblyIdentity name="Stocky" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>7FtD7y5x284mvebhj1ePnvHSceVAqAgxpWz+URFxH2U=</dsig:DigestValue>
+        <dsig:DigestValue>X2MvmZ5k0k4RFMVJjxHaDEsbfjeNYMhVaZIQGwlNEzA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

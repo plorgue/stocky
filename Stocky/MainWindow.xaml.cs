@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Stocky
 {
@@ -25,6 +26,10 @@ namespace Stocky
         internal static string MainPass;
         private Aes aes;
         private SettingsWindow settingsWindow = new SettingsWindow();
+
+        private ThicknessAnimation apparritionMessage = new ThicknessAnimation(new Thickness(0, 0, -240, 65), new Thickness(0, 0, 65, 65), new Duration(TimeSpan.FromMilliseconds(500)));
+        private ThicknessAnimation disparitionMessage = new ThicknessAnimation(new Thickness(0, 0, 65, 65), new Thickness(0, 0, -240, 65), new Duration(TimeSpan.FromMilliseconds(400)));
+        Timer timer = new Timer(5000);
 
         public static ObservableCollection<Element> elements { get; set; }
         public static string id_user1 { get; set; }
@@ -72,7 +77,7 @@ namespace Stocky
             if (textBox.Text.Equals(""))
             {
                 textBox.Text = hints[textBox.Name];
-                textBox.Foreground = new SolidColorBrush(Color.FromRgb(85, 85, 85));
+                textBox.Foreground = new SolidColorBrush(Color.FromRgb(119, 119, 119));
             }
         }
 
@@ -87,7 +92,7 @@ namespace Stocky
         {
             string min = "azertyuiopqsdfghjklmwxcvbn";
             string maj = "AZERTYUIOPQSDFGHJKLMWXCVBN";
-            string spe = @"&é(-è_çà)=^$ù*,;:!#{[|]}%µ?.";
+            string spe = "~!@#$%^&*_-+='|\\(){}[]:;\"'<>,.?/";
             string chiffre = "12345678901234567890";
 
             StringBuilder carac = new StringBuilder();
@@ -192,7 +197,7 @@ namespace Stocky
             tBoxShow_mdp.Text = elementSelected.MotDePasse;
             tBoxShow_com.Text = elementSelected.Commentaire;
             tBoxShow_id.Text = elementSelected.Identifiant;
-            Clipboard.SetText(elementSelected.MotDePasse);
+            ClipText(elementSelected.MotDePasse);
         }
 
         private void PasswordBox_KeyDown(object sender, KeyEventArgs e)
@@ -207,34 +212,31 @@ namespace Stocky
         {
             if (elements != null)
             {
-                List<Element> elementsSearch = new List<Element>();
                 string search = (sender as TextBox).Text;
+                List<Element> elementsSearch = new List<Element>();
                 foreach (Element elem in elements)
                     if (elem.Titre.ToLower().Contains(search) || elem.Lien.ToLower().Contains(search))
                         elementsSearch.Add(elem);
                 elementsSearch.Sort();
                 ObservableCollection<Element> elementsSearchSorted = new ObservableCollection<Element>(elementsSearch);
                 liste.ItemsSource = elementsSearch;
+                if (!(sender as TextBox).IsFocused && search == "Mots clés")
+                    liste.ItemsSource = elements;
             }
         }
 
-        TextBox tb_clipped;
         private void tBoxShow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            Debug.WriteLine("copie");
-            Debug.WriteLine(textBox.Text);
             if (textBox.Text.Length > 0)
-            {
-                Clipboard.SetText(textBox.Text);
-                textBox.Text += " (copié)";
-                tb_clipped = textBox;
-                Timer timer = new Timer(2000);
-                timer.Elapsed += ClipAnimation;
-                timer.AutoReset = false;
-                timer.Enabled = true;
-            }
+                ClipText(textBox.Text);
         }
+
+        private void tBox_mainPwd_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            tBlock_saisi_errer.Opacity = 0;
+        }
+
         // Méthodes
         protected override void OnClosed(EventArgs e)
         {
@@ -291,6 +293,8 @@ namespace Stocky
             eListe.Sort();
 
             elements = new ObservableCollection<Element>(eListe);
+
+            ClipText(mdp);
         }
 
         private void ElementsChanged()
@@ -413,16 +417,29 @@ namespace Stocky
             }
         }
 
-        private void ClipAnimation(object sender, ElapsedEventArgs e)
+        public void ClipText(string text)
+        {
+            Clipboard.SetText(text);
+            AfficherMessageClip();
+        }
+
+        public void AfficherMessageClip()
+        {
+            timer.Dispose();
+            timer = new Timer(5000);
+            Tb_Message.BeginAnimation(MarginProperty, apparritionMessage);
+            timer.Elapsed += EnleverMessageClip;
+            timer.Enabled = true;
+            timer.AutoReset = false;
+            timer.Start();
+        }
+        private void EnleverMessageClip(Object source, ElapsedEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
-                if (tb_clipped.Text.Contains(" (copié)"))
-                    tb_clipped.Text = tb_clipped.Text.Replace(" (copié)", "");
+                Tb_Message.BeginAnimation(MarginProperty, disparitionMessage);
             });
         }
-
-
     }
 
 }

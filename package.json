@@ -1,0 +1,50 @@
+{
+  "name": "Stocky",
+  "version": "0.0.1",
+  "main": "main.js",
+  "description": "Desktop password manager",
+  "author": "Paul Lorgue",
+  "scripts": {
+    "start": "electron-forge start",
+    "build": "electron-builder -p never",
+    "publish": "electron-builder -p always"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.64",
+    "@electron-forge/maker-deb": "^6.0.0-beta.64",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.64",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
+    "@electron-forge/maker-zip": "^6.0.0-beta.64",
+    "electron": "^14.0.1",
+    "electron-builder": "^22.11.7",
+    "electron-notarize": "^1.1.1"
+  },
+  "dependencies": {
+    "electron-log": "^4.4.1",
+    "electron-updater": "^4.3.9"
+  },
+  "build": {
+    "appId": "com.github.plorgue.stocky",
+    "afterSign": "./build/notarize.js",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "plorgue",
+        "repo": "stocky"
+      }
+    ],
+    "mac": {
+      "category": "your.app.category.type"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false
+    },
+    "linux": {
+      "category": "your.app.category.type",
+      "target": "AppImage"
+    }
+  }
+}

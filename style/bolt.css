@@ -1,0 +1,30 @@
+@import url("base.css");
+@import url("button.css");
+#bolt-container {
+	width: fit-content;
+	background: var(--dark-gray);
+    padding: 32px;
+    border-radius: 10px;
+}
+#bolt-title-container {
+    padding-bottom: 24px;
+}
+#bolt-title {
+	font-size: 32px;
+    margin-left: 16px;
+}
+#bolt-subtitle {
+    margin-bottom: 12px;
+}
+#bolt-confirm-pwd {
+    margin-top: 12px;
+}
+#bolt-open-button {
+    margin-top: 24px;
+    align-self: flex-end;
+}
+#bolt-message {
+    color: var(--mainorange);
+    font-size: 0.85rem;
+    margin-top: 6px;
+}

@@ -20,6 +20,7 @@
     "electron-notarize": "^1.1.1"
   },
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "electron-log": "^4.4.1",
     "electron-updater": "^4.3.9"
   },

@@ -1,0 +1,115 @@
+@import url("colors.css");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+
+html,
+body {
+	height: 100%;
+	background-color: var(--background);
+}
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: "Roboto", sans-serif;
+}
+
+.thin {
+	font-weight: 300;
+}
+.regular {
+	font-weight: 400;
+}
+.medium {
+	font-weight: 500;
+}
+
+.block {
+	display: block;
+}
+.flex {
+	display: flex;
+}
+.flex-row {
+	flex-direction: row;
+}
+.flex-col {
+	flex-direction: column;
+}
+
+.visible {
+	visibility: visible;
+}
+.invisible {
+	visibility: hidden;
+}
+.hidden {
+	display: none;
+}
+
+.h-0 {
+	height: 0px;
+}
+.h-full {
+	height: 100%;
+}
+
+.w-0 {
+	width: 0px;
+}
+.w-full {
+	width: 100%;
+}
+
+.items-start {
+	align-items: flex-start;
+}
+.items-end {
+	align-items: flex-end;
+}
+.items-center {
+	align-items: center;
+}
+
+.justify-items-start {
+	justify-items: start;
+}
+.justify-items-end {
+	justify-items: end;
+}
+.justify-items-center {
+	justify-items: center;
+}
+
+.content-center {
+	align-content: center;
+}
+.content-start {
+	align-content: flex-start;
+}
+.content-end {
+	align-content: flex-end;
+}
+.content-between {
+	align-content: space-between;
+}
+.content-around {
+	align-content: space-around;
+}
+
+.justify-start {
+	justify-content: flex-start;
+}
+.justify-end {
+	justify-content: flex-end;
+}
+.justify-center {
+	justify-content: center;
+}
+.justify-between {
+	justify-content: space-between;
+}
+.justify-around {
+	justify-content: space-around;
+}
+.justify-evenly {
+	justify-content: space-evenly;
+}

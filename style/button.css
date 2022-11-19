@@ -1,0 +1,28 @@
+button {
+    border-radius: var(--border-radius);
+    border: none;
+    background-color: var(--mainblue);
+    color: var(--light-gray);
+    padding: 6px 20px;
+    text-transform: uppercase;
+    width: fit-content;
+    border: 1px solid transparent;
+}
+
+button:hover {
+    filter: brightness(0.85);
+}
+
+button:active {
+    box-shadow: 0px 0px 10px var(--mainblue);
+}
+
+button:click {
+    box-shadow: 0px 0px 10px var(--mainblue);
+}
+
+button:disabled {
+    border: 1px solid rgba(73, 78, 80, 0.4);
+    color: rgba(73, 78, 80, 0.4);
+    background-color: transparent;
+}

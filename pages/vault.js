@@ -2,9 +2,6 @@ import StInput from "../components/st-input.js";
 
 customElements.define('st-input', StInput);
 
-let button = document.getElementById("vault-test-button");
+let search = document.getElementById("vault-search");
 
-function onButtonClick() {
-	window.api.send("open_vault_window", "zev");
-}
-button.addEventListener("click", onButtonClick);
+search.shadowRoot.querySelector("input").focus();

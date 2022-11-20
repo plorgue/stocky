@@ -6,8 +6,28 @@
 		<script src="vault.js" type="module" defer></script>
 	</head>
 	<body>
-        <div class="flex">
-			<button id="vault-test-button">TEST</button>
-        </div>
-    </body>
+		<header>
+			<img src="../assets/logo.png" height="45px" width="45px" />
+			<div id="vault-auto-lock">
+				<span medium>Auto lock</span>
+				<span class="tag on" medium></span>
+			</div>
+		</header>
+		<div id="vault-container" class="flex flex-row">
+			<div id="vault-left">
+				<st-input id="vault-search" hint="Recherche ..." blue large></st-input>
+			</div>
+			<div id="vault-spacer"></div>
+			<div id="vault-right">
+				<div id="vault-edit" class="h-full">
+					<p id="vault-edit_title" class="thin">Nouveau mot de passe</p>
+					<st-input label="Titre" hint="Google" class="block"></st-input>
+					<st-input label="Lien" hint="google.com" class="block"></st-input>
+					<st-input label="Identifiant" hint="moi@quelque.part" class="block"></st-input>
+					<st-input label="Mot de passe" hint="chuut.." isPassword class="block"></st-input>
+					<st-input label="Commentaire" hint="blabla" class="block"></st-input>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

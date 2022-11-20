@@ -1,3 +1,68 @@
 @import url("base.css");
 @import url("input.css");
 @import url("button.css");
+
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 75px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+    background: transparent;
+    padding: 0px 10%;
+}
+
+#vault-auto-lock {
+    border: 1px solid var(--black);
+    border-radius: 8px;
+    color: var(--black);
+    font-weight: bold;
+    padding: 4px 12px;
+}
+#vault-auto-lock .tag {
+    border-radius: 6px;
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    position: relative;
+    bottom: 1px;
+    vertical-align: baseline;
+    margin-left: 0.5rem;
+    color: var(--background);
+}
+#vault-auto-lock .tag.on {
+    background-color: #6B9C6D;    
+}
+#vault-auto-lock .tag.on::after {
+    content: "ON";
+}
+#vault-auto-lock .tag.off {
+    background-color: #B75353;    
+}
+#vault-auto-lock .tag.off::after {
+    content: "OFF";
+}
+
+
+#vault-container {
+    padding: 24px 10%;
+}
+#vault-left {
+    flex: .6 1 auto;
+}
+#vault-spacer {
+    flex: .1 1 auto;
+}
+#vault-right {
+    flex: .3 1 auto;
+}
+#vault-edit {
+    background: var(--dark-gray);
+    border-radius: var(--border-radius);
+    padding: 38px 36px;
+}
+
+#vault-right st-input {
+    margin-top: 18px;
+}

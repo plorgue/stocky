@@ -1,6 +1,7 @@
 import StInput from "../components/st-input.js";
+import StPasswordEdition from "../components/st-password-edition.js"
 
-
+customElements.define("st-password-edition", StPasswordEdition);
 customElements.define("st-input", StInput);
 
 const TABLE_COLUMNS = ["title", "link", "username", "description"];
@@ -8,6 +9,7 @@ const TABLE_COLUMNS_WIDTH = [20, 25, 30, 20];
 
 let search = document.getElementById("vault-search");
 let table = document.querySelector("#vault-left table tbody");
+let passwordEditor = document.querySelector("st-password-edition");
 
 //#region  tempo
 let btn = document.getElementById("test-button");
@@ -39,7 +41,10 @@ btn.addEventListener("click", () => {
 	appendTableRow(demoPwd);
 });
 
+passwordEditor.addEventListener('newPassword', (e) => appendTableRow(e.detail))
+
 function appendTableRow(pwd) {
+	console.log(pwd)
 	let row = document.createElement("tr");
 	row.setAttribute("row", currentTableLength);
 	currentTableLength += 1;

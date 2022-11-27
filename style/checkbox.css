@@ -1,0 +1,66 @@
+/* 
+    <p>
+        <input type="checkbox" id="cbox1">
+        <label for="cbox1" aria-describedby="label">Label</label>
+    </p>
+*/
+p {
+	position: relative;
+}
+input[type="checkbox"] {
+	position: absolute;
+	left: 0;
+	opacity: 0.01;
+}
+
+input[type="checkbox"] + label {
+	position: relative;
+	padding-left: 2.3em;
+	font-size: 0.95em;
+	line-height: 1.8;
+	cursor: pointer;
+}
+
+/* Aspect de la case */
+input[type="checkbox"]:not(:checked) + label::before,
+input[type="checkbox"]:checked + label::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: -0.3em;
+	width: 1.6em;
+	height: 1.6em;
+	background: var(--lighter-gray);
+	border-radius: 100%;
+	transition: all 0.275s;
+}
+
+/* Aspect de la coche */
+input[type="checkbox"]:not(:checked) + label::after,
+input[type="checkbox"]:checked + label::after {
+	content: url("../assets/tick.svg");
+	position: absolute;
+	top: -0.3em;
+	left: 0;
+	color: var(--mainblue);
+	line-height: 0;
+	width: 1.6em;
+	height: 1.6em;
+	transition: all 0.2s; /* Petite transition */
+}
+
+/* Aspect non cochée */
+input[type="checkbox"]:not(:checked) + label::after {
+	opacity: 0;
+	transform: scale(0) rotate(45deg);
+}
+
+/* Aspect cochée */
+input[type="checkbox"]:checked + label::after {
+	opacity: 1;
+	transform: scale(1) rotate(0);
+}
+
+input[type="checkbox"]:hover + label::before{
+	background: var(--light-gray);
+}

@@ -37,7 +37,7 @@ export default class StPasswordEdition extends HTMLElement {
     <st-input label="Titre" hint="Google" class="block"></st-input>
     <st-input label="Lien" hint="google.com" class="block"></st-input>
     <st-input label="Identifiant" hint="moi@quelque.part" class="block"></st-input>
-    <st-input label="Mot de passe" hint="chuut.." isPassword class="block"></st-input>
+    <st-input label="Mot de passe" hint="chuut.." is-password class="block"></st-input>
 	<div id="generate-pwd-container" class="flex flex-row justify-evenly">	
 		<div class="flex flex-col">
 			<p>
@@ -92,13 +92,18 @@ export default class StPasswordEdition extends HTMLElement {
     });
 
     this.shadow.getElementById("generate-pwd-btn").addEventListener("click", () => {
-      this.shadow.querySelector("st-input[label='Mot de passe']").shadowRoot.querySelector("input").value =
-        this.generatePassword(
-          this.shadow.getElementById("cbox-min").checked,
-          this.shadow.getElementById("cbox-maj").checked,
-          this.shadow.getElementById("cbox-num").checked,
-          this.shadow.getElementById("cbox-spe").checked,
-          this.shadow.getElementById("input-len").value
+      //   this.shadow.querySelector("st-input[label='Mot de passe']").shadowRoot.querySelector("input").value =
+      this.shadow
+        .querySelector("st-input[label='Mot de passe']")
+        .setAttribute(
+          "new-value",
+          this.generatePassword(
+            this.shadow.getElementById("cbox-min").checked,
+            this.shadow.getElementById("cbox-maj").checked,
+            this.shadow.getElementById("cbox-num").checked,
+            this.shadow.getElementById("cbox-spe").checked,
+            this.shadow.getElementById("input-len").value
+          )
         );
     });
 

@@ -2,17 +2,22 @@ export default class StInput extends HTMLElement {
 	pressEvent = new CustomEvent("onPress");
 	typingEvent = new CustomEvent("onTyping");
 
+    static get observedAttributes() {
+        return ["new-value"];
+    }
+
 	constructor() {
 		super();
 
 		this.shadow = this.attachShadow({ mode: "open" });
 
-		this.hint = this.getAttribute("hint");
-		// this.icon = this.getAttribute("icon");
-		this.isBlue = this.getAttribute("blue") !== null;
-		this.label = this.getAttribute("label");
-		this.isPassword = this.getAttribute("isPassword") !== null;
-		this.isLarge = this.getAttribute("large") !== null;
+        this.newValue = this.getAttribute("new-value");
+        this.hint = this.getAttribute("hint");
+        this.label = this.getAttribute("label");
+        // this.icon = this.getAttribute("icon");
+        this.isBlue = this.hasAttribute("blue");
+        this.isPassword = this.hasAttribute("is-password");
+        this.isLarge = this.hasAttribute("large");
 
 		this.type = this.isPassword ? "password" : "text";
 
@@ -40,13 +45,9 @@ ${this.label !== null ? labelHTML : ""}
 			}
 		});
 		input.addEventListener("input", (e) => {
-			e.preventDefault();
-			this.dispatchEvent(this.typingEvent);
-			if (input.value.length) {
-				this.shadow.getElementById("input_hint").innerText = "";
-			} else {
-				this.shadow.getElementById("input_hint").innerText = this.hint;
-			}
+            this.dispatchEvent(this.typingEvent);
+            this.handlerValueChange(input.value);
+            e.preventDefault();
 		});
 		// input.addEventListener('')
 		if (this.isLarge) input.classList.add("large");
@@ -74,4 +75,20 @@ ${this.label !== null ? labelHTML : ""}
 			this.shadow.getElementById("input_main-pwd").type = "password";
 		}
 	};
+    handlerValueChange = (value) => {
+        if (value.length) {
+            this.shadow.getElementById("input_hint").innerText = "";
+        } else {
+            this.shadow.getElementById("input_hint").innerText = this.hint;
+        }
+    };
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        switch (name) {
+            case "new-value":
+                this.shadow.querySelector("input").value = newValue;
+                this.handlerValueChange(newValue);
+                break;
+        }
+    }
 }

@@ -1,52 +1,52 @@
-const { Hash } = require("crypto");
+const { Hash } = require("crypto"); // eslint-disable-line
 const fs = require("fs");
 const { Hasher } = require("./key.js");
 
 class Password {
-	constructor(id, title, link, username, password, description) {
-		this.id = id;
-		this.title = title;
-		this.link = link;
-		this.username = username;
-		this.password = password;
-		this.description = description;
-	}
+    constructor(id, title, link, username, password, description) {
+        this.id = id;
+        this.title = title;
+        this.link = link;
+        this.username = username;
+        this.password = password;
+        this.description = description;
+    }
 }
 
 class Vault {
-	static hashFilePath = "./hash";
+    static hashFilePath = "./hash";
 
-	constructor() {
-		this.passwords = [];
-	}
+    constructor() {
+        this.passwords = [];
+    }
 
-	static existsMainPwd() {
-		return fs.existsSync(Vault.hashFilePath);
-	}
+    static existsMainPwd() {
+        return fs.existsSync(Vault.hashFilePath);
+    }
 
-	setMainPassword(pwd) {
-		const hash = Hasher.hash(pwd);
-		fs.writeFileSync(Vault.hashFilePath, hash, {encoding: "base64"});
-	}
+    setMainPassword(pwd) {
+        const hash = Hasher.hash(pwd);
+        fs.writeFileSync(Vault.hashFilePath, hash, { encoding: "base64" });
+    }
 
-	tryInputPassword(input_password) {
-		if (Vault.existsMainPwd()) {
-			const hash = fs.readFileSync(Vault.hashFilePath, { encoding: "base64" });
-			return Hasher.compare(hash, input_password);
-		} else {
-			return false;
-		}
-	}
+    tryInputPassword(input_password) {
+        if (Vault.existsMainPwd()) {
+            const hash = fs.readFileSync(Vault.hashFilePath, { encoding: "base64" });
+            return Hasher.compare(hash, input_password);
+        } else {
+            return false;
+        }
+    }
 
-	getAllPasswordMetadata() {}
+    getAllPasswordMetadata() {}
 
-	getPassword(id) {}
+    getPassword(id) {} // eslint-disable-line
 
-	addPassword(password) {}
+    addPassword(password) {} // eslint-disable-line
 
-	removePassword(password) {}
+    removePassword(password) {} // eslint-disable-line
 
-	synchronize() {}
+    synchronize() {}
 }
 
 module.exports = { Vault, Password };

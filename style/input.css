@@ -1,86 +1,87 @@
 input {
-	border: 2px solid transparent;
-	border-radius: var(--border-radius);
-	background-color: var(--light-gray);
-	color: var(--black);
-	padding: 10px 16px;
-	width: 100%;
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    background-color: var(--light-gray);
+    color: var(--black);
+    padding: 10px 16px;
+    width: 100%;
     outline: none;
     font-size: 0.9rem;
 }
 
-input:focus, input:active {
+input:focus,
+input:active {
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
 }
 
 input.large {
-	font-size: 1.1rem;
+    font-size: 1.1rem;
 }
 input.large + .input_show-hide {
-	background-size: 20px;
+    background-size: 20px;
 }
 input.large + .input_show-hide:hover {
-	background-size: 18px;
+    background-size: 18px;
 }
 
 input.blue {
-	border: 2px solid var(--mainblue);
+    border: 2px solid var(--mainblue);
 }
 
 .input_show-hide {
-	position: relative;
-	display: flex;
-	z-index: 2;
-	align-items: center;
-	margin-left: -36px;
-	width: 36px;
-	height: 36px;
-	border-radius: var(--border-radius);
-	cursor: pointer;
-	transition: 150ms ease-out;
-	background-size: 16px;
-	background-repeat: no-repeat;
-	background-position: center;
+    position: relative;
+    display: flex;
+    z-index: 2;
+    align-items: center;
+    margin-left: -36px;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: 150ms ease-out;
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .input_show-hide:hover {
-	background-size: 15px;
+    background-size: 15px;
 }
 .input_show-hide.hide {
-	background-image: url(../assets/hide.png);
+    background-image: url(../assets/hide.png);
 }
 .input_show-hide.show {
-	background-image: url(../assets/show.png);
+    background-image: url(../assets/show.png);
 }
 
 .input_show-hide:before {
-	z-index: 1;
-	content: "";
-	display: block;
-	position: absolute;
-	border-radius: 4em;
-	left: 50%;
-	top: 50%;
-	width: 1%;
-	height: 1%;
-	opacity: 0;
-	transition: all 300ms;
-	box-shadow: 0 0 20px 20px rgba(255, 255, 255, 0.1);
+    z-index: 1;
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 4em;
+    left: 50%;
+    top: 50%;
+    width: 1%;
+    height: 1%;
+    opacity: 0;
+    transition: all 300ms;
+    box-shadow: 0 0 20px 20px rgba(255, 255, 255, 0.1);
 }
 
 .input_show-hide:active:before {
-	box-shadow: 0 0 0 0 white;
-	position: absolute;
-	border-radius: 4em;
-	left: 50%;
-	top: 50%;
-	opacity: 1;
-	transition: 0s;
+    box-shadow: 0 0 0 0 white;
+    position: absolute;
+    border-radius: 4em;
+    left: 50%;
+    top: 50%;
+    opacity: 1;
+    transition: 0s;
 }
 
 #input_hint {
-	position: absolute;
-	padding-left: 18px;
-	color: var(--dark-gray);
+    position: absolute;
+    padding-left: 18px;
+    color: var(--dark-gray);
 }
 
 #input_label {

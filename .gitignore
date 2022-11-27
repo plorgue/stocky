@@ -6,3 +6,5 @@ hash
 
 .vscode
 .prettierrc
+.husky
+.eslintrc.json

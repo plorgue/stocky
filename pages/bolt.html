@@ -1,30 +1,39 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Stocky - Bolt</title>
-		<link rel="stylesheet" href="../style/bolt.css" />
-		<script src="bolt.js" type="module" defer></script>
-	</head>
-	<body>
-		<div class="flex h-full w-full items-center justify-center">
-			<div id="bolt-container" class="flex flex-col">
-				<div id="bolt-title-container" class="flex flex-row">
-					<img src="../assets/logo.png" height="45px" width="45px" />
-					<p id="bolt-title" class="thin">Mot de passe principal</p>
-				</div>
-				<p id="bolt-subtitle" class="hidden thin" >Choisissez votre mot de passe principale.<br> Il doit avoir plus de 12 caratères.</p>
-				<!-- <div>
+    <head>
+        <title>Stocky - Bolt</title>
+        <link rel="stylesheet" href="../style/bolt.css" />
+        <script src="bolt.js" type="module" defer></script>
+    </head>
+    <body>
+        <div class="flex h-full w-full items-center justify-center">
+            <div id="bolt-container" class="flex flex-col">
+                <div id="bolt-title-container" class="flex flex-row">
+                    <img src="../assets/logo.png" height="45px" width="45px" />
+                    <p id="bolt-title" class="thin">Mot de passe principal</p>
+                </div>
+                <p id="bolt-subtitle" class="hidden thin">
+                    Choisissez votre mot de passe principale.<br />
+                    Il doit avoir plus de 12 caratères.
+                </p>
+                <!-- <div>
 					<div class="flex flex-row">
 						<input id="input_main-pwd" type="password" />
 						<span id="input_hide-show-toggle" class="input_show-hide"></span>
 					</div>
 				</div> -->
-				<st-input id="bolt-pwd" class="block" hint="Mot de passe principal" is-password large></st-input>
-				<st-input id="bolt-confirm-pwd" class="hidden" hint="Confirmation du mot de passe" is-password large></st-input>
-				<p id="bolt-message" class="invisible"></p>
+                <st-input id="bolt-pwd" class="block" hint="Mot de passe principal" is-password large></st-input>
+                <st-input
+                    id="bolt-confirm-pwd"
+                    class="hidden"
+                    hint="Confirmation du mot de passe"
+                    is-password
+                    large
+                ></st-input>
+                <p id="bolt-message" class="invisible"></p>
 
-				<button id="bolt-open-button" disabled>Ouvrir</button>
-			</div>
-		</div>
-	</body>
+                <button id="bolt-open-button" disabled>Ouvrir</button>
+            </div>
+        </div>
+    </body>
 </html>

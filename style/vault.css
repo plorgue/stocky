@@ -3,85 +3,84 @@
 @import url("button.css");
 
 header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	height: 75px;
-	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
-	background: transparent;
-	padding: 0px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 75px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+    background: transparent;
+    padding: 0px 10%;
 }
 #vault-auto-lock {
-	border: 1px solid var(--black);
-	border-radius: 8px;
-	color: var(--black);
-	font-weight: bold;
-	padding: 4px 12px;
+    border: 1px solid var(--black);
+    border-radius: 8px;
+    color: var(--black);
+    font-weight: bold;
+    padding: 4px 12px;
 }
 #vault-auto-lock .tag {
-	border-radius: 6px;
-	font-size: 0.8rem;
-	padding: 2px 5px;
-	position: relative;
-	bottom: 1px;
-	vertical-align: baseline;
-	margin-left: 0.5rem;
-	color: var(--background);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    position: relative;
+    bottom: 1px;
+    vertical-align: baseline;
+    margin-left: 0.5rem;
+    color: var(--background);
 }
 #vault-auto-lock .tag.on {
-	background-color: #6b9c6d;
+    background-color: #6b9c6d;
 }
 #vault-auto-lock .tag.on::after {
-	content: "ON";
+    content: "ON";
 }
 #vault-auto-lock .tag.off {
-	background-color: #b75353;
+    background-color: #b75353;
 }
 #vault-auto-lock .tag.off::after {
-	content: "OFF";
+    content: "OFF";
 }
 
 #vault-container {
-	padding: 24px 10%;
+    padding: 24px 10%;
 }
 #vault-left {
-	flex: 0.6 1 auto;
+    flex: 0.6 1 auto;
 }
 #vault-spacer {
-	flex: 0.1 1 auto;
+    flex: 0.1 1 auto;
 }
 #vault-right {
-	flex: 0.3 1 auto;
+    flex: 0.3 1 auto;
 }
-
 
 /* TABLE */
 #vault-container table {
-	margin-top: 24px;
-	border-spacing: 0px;
+    margin-top: 24px;
+    border-spacing: 0px;
     width: 100%;
 }
 #vault-container tr {
-	height: 38px;
+    height: 38px;
 }
 #vault-container th {
-	text-align: start;
+    text-align: start;
 }
 #vault-container td {
-	font-size: 0.9rem;
+    font-size: 0.9rem;
     max-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 #vault-container tbody tr {
-	cursor: pointer;
+    cursor: pointer;
 }
 #vault-container tbody tr:hover {
-	filter: brightness(0.95);
+    filter: brightness(0.95);
 }
 #vault-container tbody tr {
-	border-bottom: 1px solid #a8b8bc;
+    border-bottom: 1px solid #a8b8bc;
 }
 #vault-container tbody tr:nth-child(2n) {
     background-color: var(--light-gray);
@@ -89,18 +88,19 @@ header {
 #vault-container tbody tr:nth-child(2n + 1) {
     background-color: var(--lighter-gray);
 }
-#vault-container td, #vault-container th {
-	padding: 0px 12px;
+#vault-container td,
+#vault-container th {
+    padding: 0px 12px;
 }
 #vault-container tbody tr:first-child td:first-child {
-	border-top-left-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
 }
 #vault-container tbody tr:first-child td:last-child {
-	border-top-right-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
 }
 #vault-container tbody tr:last-child td:first-child {
-	border-bottom-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
 }
 #vault-container tbody tr:last-child td:last-child {
-	border-bottom-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
 }

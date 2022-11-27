@@ -1,11 +1,11 @@
-:root{
-    --background: #E0E9EC;
-    --dark-gray: #C2CACD;
-    --light-gray: #DAE0E1;
+:root {
+    --background: #e0e9ec;
+    --dark-gray: #c2cacd;
+    --light-gray: #dae0e1;
     --lighter-gray: #e4e8e9;
     --mainblue: #094074;
     --light-blue: #95b5d3;
-    --mainorange: #C1740E;
-    --black: #494E50;
+    --mainorange: #c1740e;
+    --black: #494e50;
     --border-radius: 8px;
 }

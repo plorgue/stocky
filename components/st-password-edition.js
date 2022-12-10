@@ -1,16 +1,3 @@
-//#region
-class Password {
-    constructor(id, title, link, username, password, description) {
-        this.id = id;
-        this.title = title;
-        this.link = link;
-        this.username = username;
-        this.password = password;
-        this.description = description;
-    }
-}
-//#endregion
-
 export default class StPasswordEdition extends HTMLElement {
     newPasswordEvent = (args) => new CustomEvent("newPassword", { detail: args });
 
@@ -32,11 +19,11 @@ export default class StPasswordEdition extends HTMLElement {
 <link rel="stylesheet" href="../style/button.css" />
 <link rel="stylesheet" href="../style/checkbox.css"/>
 <link rel="stylesheet" href="../style/input.css"/>
-<div id="vault-edit" class="h-full flex flex-col">
+<div id="vault-edit" class="flex flex-col">
     <p id="vault-edit_title" class="thin">Nouveau mot de passe</p>
-    <st-input label="Titre" hint="Google" class="block"></st-input>
-    <st-input label="Lien" hint="google.com" class="block"></st-input>
-    <st-input label="Identifiant" hint="moi@quelque.part" class="block"></st-input>
+    <st-input label="Titre" hint="Google" class="block" new-value="google"></st-input>
+    <st-input label="Lien" hint="google.com" class="block" new-value="www.google"></st-input>
+    <st-input label="Identifiant" hint="moi@quelque.part" class="block" new-value="macin@truc.com"></st-input>
     <st-input label="Mot de passe" hint="chuut.." is-password class="block"></st-input>
 	<div id="generate-pwd-container" class="flex flex-row justify-evenly">	
 		<div class="flex flex-col">
@@ -80,15 +67,15 @@ export default class StPasswordEdition extends HTMLElement {
 
         this.shadow.getElementById("vault-edit_btn-valid").addEventListener("click", () => {
             if (this.state == "new") {
-                const pwd = new Password(
-                    null,
-                    this.getInputValueFromLabel("Titre"),
-                    this.getInputValueFromLabel("Lien"),
-                    this.getInputValueFromLabel("Identifiant"),
-                    this.getInputValueFromLabel("Mot de passe"),
-                    this.getInputValueFromLabel("Commentaire"),
-                );
+                const pwd = {
+                    title: this.getInputValueFromLabel("Titre"),
+                    link: this.getInputValueFromLabel("Lien"),
+                    username: this.getInputValueFromLabel("Identifiant"),
+                    password: this.getInputValueFromLabel("Mot de passe"),
+                    description: this.getInputValueFromLabel("Commentaire"),
+                };
                 this.dispatchEvent(this.newPasswordEvent(pwd));
+                window.api.password("create", pwd);
             }
         });
 

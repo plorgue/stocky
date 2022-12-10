@@ -2,21 +2,36 @@ const { app, BrowserWindow, session, ipcMain } = require("electron");
 const log = require("electron-log");
 const { autoUpdater } = require("electron-updater");
 const path = require("path");
-const { Vault } = require("./back/model.js");
+const { Vault } = require("./back/models.js");
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
 
+let boltWin;
+let vaultWin;
 let vault = new Vault();
 
-let bolt, vaultWin;
+function initWindow(url, maximaize = false, devTool = false) {
+    const newWin = new BrowserWindow({
+        webPreferences: {
+            preload: path.join(__dirname, "preload.js"), // eslint-disable-line
+            nodeIntegration: false,
+            contextIsolation: true,
+            webSecurity: true,
+            nativeWindowOpen: true,
+        },
+        show: false,
+    });
 
-function sendStatusToWindow(text) {
-    log.info(text);
-    bolt.webContents.send("message", text);
+    if (devTool) newWin.webContents.openDevTools();
+    if (maximaize) newWin.maximize();
+    newWin.setMenu(null);
+    newWin.loadURL(url);
+    return newWin;
 }
-function createDefaultWindow() {
+
+app.on("ready", function () {
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
         callback({
             responseHeaders: {
@@ -27,60 +42,42 @@ function createDefaultWindow() {
             },
         });
     });
+    boltWin = initWindow(`file://${__dirname}/pages/bolt.html`); // eslint-disable-line
+    boltWin.show();
+});
 
-    bolt = new BrowserWindow({
-        webPreferences: {
-            preload: path.join(__dirname, "preload.js"), // eslint-disable-line
-            nodeIntegration: false,
-            contextIsolation: true,
-            webSecurity: true,
-            nativeWindowOpen: true,
-        },
-    });
+app.on("window-all-closed", () => {
+    app.quit();
+});
 
-    // bolt.webContents.openDevTools();
-    bolt.setMenu(null);
-    bolt.on("closed", () => {
-        bolt = null;
-    });
-    bolt.loadURL(`file://${__dirname}/pages/bolt.html`); // eslint-disable-line
-    // bolt.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
+// ------------------------------------------------------------------
+// ---------------------------- ROUTING -----------------------------
+// ------------------------------------------------------------------
 
-    return bolt;
-}
+let mainPassword = null;
 
 ipcMain.on("default_pwd", () => {
-    bolt.webContents.send("default_pwd", !Vault.existsMainPwd());
+    boltWin.webContents.send("default_pwd", !Vault.existsMainPwd());
 });
 
 ipcMain.on("try_input_password", (_, input_password) => {
     const result = vault.tryInputPassword(input_password);
     if (result) {
         log.info("Valid main password");
-
-        vaultWin = new BrowserWindow({
-            webPreferences: {
-                preload: path.join(__dirname, "preload.js"), // eslint-disable-line
-                nodeIntegration: false,
-                contextIsolation: true,
-                webSecurity: true,
-                nativeWindowOpen: true,
-            },
-        });
-        vaultWin.maximize();
-        vaultWin.setMenu(null);
-        vaultWin.loadURL(`file://${__dirname}/pages/vault.html`); // eslint-disable-line
-        vaultWin.webContents.openDevTools();
-
+        vaultWin = initWindow(`file://${__dirname}/pages/vault.html`, true, true); // eslint-disable-line
         vaultWin.show();
-        bolt.hide();
+        boltWin.hide();
 
-        let passwordMetadata = vault.getAllPasswordMetadata();
-        vaultWin.webContents.send("pwd_metadata", passwordMetadata);
-        // mainPassword = input_password;
+        mainPassword = input_password;
+
+        let passwordMetadata = vault.getAllPasswordMetadata(input_password);
+
+        vaultWin.on("ready-to-show", function () {
+            vaultWin.webContents.send("pwd_metadata", passwordMetadata);
+        });
     } else {
         log.info("Wrong main password");
-        bolt.webContents.send("wrong_input_password", result);
+        boltWin.webContents.send("wrong_input_password", result);
     }
 });
 
@@ -92,9 +89,23 @@ ipcMain.on("save_new_main", (_, input_password) => {
     }
 });
 
+ipcMain.on("create_pwd", (e, pwd) => {
+    vault.addPassword(pwd, mainPassword);
+    vaultWin.send("pwd_metadata", vault.getAllPasswordMetadata(mainPassword));
+});
+
+ipcMain.on("delete_pwd", (e, id) => {
+    vault.deletePassword(id);
+    vaultWin.send("pwd_metadata", vault.getAllPasswordMetadata(mainPassword));
+});
+
 // ------------------------------------------------------------------
 // -------------------------- AUTO UPDATER --------------------------
 // ------------------------------------------------------------------
+function sendStatusToWindow(text) {
+    log.info(text);
+    // boltWin.webContents.send("message", text);
+}
 
 autoUpdater.on("checking-for-update", () => {
     sendStatusToWindow("Checking for update...");
@@ -117,13 +128,6 @@ autoUpdater.on("download-progress", (progressObj) => {
 autoUpdater.on("update-downloaded", () => {
     sendStatusToWindow("Update downloaded");
 });
-app.on("ready", function () {
-    createDefaultWindow();
-});
-app.on("window-all-closed", () => {
-    app.quit();
-});
-
 app.on("ready", function () {
     autoUpdater.checkForUpdatesAndNotify();
 });

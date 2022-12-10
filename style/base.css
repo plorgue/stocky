@@ -113,8 +113,14 @@ body {
 .justify-evenly {
     justify-content: space-evenly;
 }
+.text-center {
+    text-align: center;
+}
 .w0 {
     width: 0%;
+}
+.w7 {
+    width: 7%;
 }
 .w5 {
     width: 5%;

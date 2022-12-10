@@ -32,4 +32,23 @@ contextBridge.exposeInMainWorld("api", {
             ipcRenderer.removeAllListeners(channel);
         }
     },
+
+    password: (type, data) => {
+        switch (type) {
+            case "create":
+                ipcRenderer.send("create_pwd", data);
+                break;
+            case "modify":
+                ipcRenderer.send("modify_pwd", data);
+                break;
+            case "delete":
+                ipcRenderer.send("delete_pwd", data);
+                break;
+            case "reveal":
+                ipcRenderer.send("reveal_pwd", data);
+                break;
+            default:
+                return null;
+        }
+    },
 });

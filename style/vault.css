@@ -45,13 +45,13 @@ header {
     padding: 24px 10%;
 }
 #vault-left {
-    flex: 0.6 1 auto;
+    flex: 0.6 1 35vw;
 }
 #vault-spacer {
     flex: 0.1 1 auto;
 }
 #vault-right {
-    flex: 0.3 1 auto;
+    flex: 0.3 1 20vw;
 }
 
 /* TABLE */

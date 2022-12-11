@@ -1,6 +1,8 @@
 import StInput from "../components/st-input.js";
 import StPasswordEdition from "../components/st-password-edition.js";
+import StPasswordVisu from "../components/st-password-visu.js";
 
+customElements.define("st-password-visu", StPasswordVisu);
 customElements.define("st-password-edition", StPasswordEdition);
 customElements.define("st-input", StInput);
 
@@ -10,6 +12,7 @@ const TABLE_COLUMNS_WIDTH = [20, 25, 25, 20, 7];
 let search = document.getElementById("vault-search");
 let table = document.querySelector("#vault-left table tbody");
 // let passwordEditor = document.querySelector("st-password-edition");
+let rightPanel = document.getElementById("vault-right");
 
 let currentTableLength = -1;
 let passwordMetadata = [];
@@ -35,7 +38,7 @@ function appendTableRow(pwd) {
 }
 
 function handleRowClick(e) {
-    console.log(e.target.parentNode.getAttribute("row"));
+    window.api.password("reveal", passwordMetadata[parseInt(e.target.parentNode.getAttribute("row"))].id);
 }
 
 function handleDeleteClick(e) {
@@ -56,4 +59,19 @@ window.api.receive("pwd_metadata", function (res) {
         appendTableRow(pwd);
     });
     passwordMetadata = res;
+});
+
+window.api.receive("password_revealed", function (res) {
+    let visu = new StPasswordVisu(res);
+    switch (rightPanel.firstElementChild.nodeName) {
+        case "ST-PASSWORD-EDITION":
+            rightPanel.replaceChild(visu, rightPanel.firstElementChild);
+            visu.addEventListener("closeMe", () => {
+                rightPanel.replaceChild(new StPasswordEdition(), rightPanel.firstElementChild);
+            });
+            break;
+        case "ST-PASSWORD-VISU":
+            rightPanel.firstElementChild.changePassword(res);
+            break;
+    }
 });

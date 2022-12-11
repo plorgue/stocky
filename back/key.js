@@ -30,7 +30,11 @@ class Crypto {
     static decryptJSONValues(content, password) {
         let decrypted = {};
         Object.entries(content).forEach(([key, value]) => {
-            decrypted[key] = this.decryptString(value, password);
+            if (key !== "id") {
+                decrypted[key] = this.decryptString(value, password);
+            } else {
+                decrypted.id = value;
+            }
         });
         return decrypted;
     }

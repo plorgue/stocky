@@ -19,6 +19,7 @@ contextBridge.exposeInMainWorld("api", {
             "default_pwd",
             "wrong_input_password",
             "pwd_metadata",
+            "password_revealed",
         ];
         if (validChannels.includes(channel)) {
             // Deliberately strip event as it includes `sender`

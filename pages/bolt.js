@@ -13,7 +13,6 @@ let subtitle = document.getElementById("bolt-subtitle");
 
 function onButtonClick() {
     const inputPassword = input.shadowRoot.querySelector("input").value;
-    console.log(inputPassword);
     if (!isDefaultPwd) {
         window.api.send("try_input_password", inputPassword);
     } else {

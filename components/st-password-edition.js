@@ -13,7 +13,7 @@ export default class StPasswordEdition extends HTMLElement {
             this.state = "new";
         }
 
-        const newHTML = () => `
+        const newHTML = `
 <link rel="stylesheet" href="../style/base.css" />
 <link rel="stylesheet" href="../style/passwordEdition.css" />
 <link rel="stylesheet" href="../style/button.css" />
@@ -56,13 +56,9 @@ export default class StPasswordEdition extends HTMLElement {
     <button id="vault-edit_btn-valid" class="align-self-end">Ajouter</button>
 </div>`;
 
-        if (this.state == "display") {
+        this.shadow.innerHTML = newHTML;
+        if (this.state == "edition") {
             // eslint-disable-line
-        } else {
-            this.shadow.innerHTML = newHTML();
-            if (this.state == "edition") {
-                // eslint-disable-line
-            }
         }
 
         this.shadow.getElementById("vault-edit_btn-valid").addEventListener("click", () => {
@@ -96,7 +92,6 @@ export default class StPasswordEdition extends HTMLElement {
         });
 
         this.shadow.getElementById("input-len").addEventListener("blur", (e) => {
-            console.log("ehePfor");
             if (isNaN(parseInt(e.target.value))) {
                 this.shadow.getElementById("input-len").value = this.previousLenPwd;
                 return;

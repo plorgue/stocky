@@ -68,8 +68,6 @@ class Vault {
         return pwdsPartial;
     }
 
-    getPassword(id) {} // eslint-disable-line
-
     addPassword(password, mainPassword) {
         // TODO: assert mainpassword !== null
         let secret = Crypto.encryptJSONValues(password, mainPassword);
@@ -96,6 +94,17 @@ class Vault {
             console.error(`Can't write in json file: ${Vault.listPwdPath}`);
         }
     } // eslint-disable-line
+
+    getPassword(id, mainPassword) {
+        const raw = fs.readFileSync(Vault.listPwdPath);
+        let passwords = JSON.parse(raw);
+        let pwdC = passwords.list.find((pwd) => pwd.id === id);
+        if (pwdC) {
+            return Crypto.decryptJSONValues(pwdC, mainPassword);
+        } else {
+            //TODO: handle error
+        }
+    }
 
     synchronize() {}
 }

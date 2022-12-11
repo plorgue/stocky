@@ -99,6 +99,11 @@ ipcMain.on("delete_pwd", (e, id) => {
     vaultWin.send("pwd_metadata", vault.getAllPasswordMetadata(mainPassword));
 });
 
+ipcMain.on("reveal_pwd", (e, id) => {
+    let pwd = vault.getPassword(id, mainPassword);
+    vaultWin.send("password_revealed", pwd);
+});
+
 // ------------------------------------------------------------------
 // -------------------------- AUTO UPDATER --------------------------
 // ------------------------------------------------------------------

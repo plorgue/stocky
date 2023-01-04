@@ -1,5 +1,6 @@
 export default class StPasswordVisu extends HTMLElement {
     closeEvent = new CustomEvent("closeMe");
+    modifyEvent = new CustomEvent("modifyMe");
 
     constructor(pwd) {
         super();
@@ -104,13 +105,16 @@ export default class StPasswordVisu extends HTMLElement {
             if (pwd[field]) {
                 this.shadow.getElementById(`vault-visu-clip_${field}`).addEventListener("click", () => {
                     navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-                        console.log(result);
                         if (result.state == "granted" || result.state == "prompt") {
                             navigator.clipboard.writeText(pwd[field]);
                         }
                     });
                 });
             }
+        });
+
+        this.shadow.getElementById("vault-visu_btn-valid").addEventListener("click", () => {
+            this.dispatchEvent(this.modifyEvent);
         });
     }
 

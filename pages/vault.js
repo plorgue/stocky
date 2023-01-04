@@ -7,7 +7,7 @@ customElements.define("st-password-edition", StPasswordEdition);
 customElements.define("st-input", StInput);
 
 const TABLE_COLUMNS = ["title", "link", "username", "description"];
-const TABLE_COLUMNS_WIDTH = [20, 25, 25, 20, 7];
+const TABLE_COLUMNS_WIDTH = [20, 30, 25, 25];
 
 let search = document.getElementById("vault-search");
 let table = document.querySelector("#vault-left table tbody");
@@ -31,7 +31,7 @@ function appendTableRow(pwd) {
     });
 
     let delcol = document.createElement("td");
-    delcol.classList.add(`w${TABLE_COLUMNS_WIDTH[4]}`, "text-center", "bin");
+    delcol.classList.add("text-center", "bin");
     delcol.addEventListener("click", handleDeleteClick);
     row.appendChild(delcol);
     table.appendChild(row);
@@ -48,6 +48,22 @@ function handleDeleteClick(e) {
 
 search.shadowRoot.querySelector("input").focus();
 
+// Adjust the width of thead cells when window resizes
+window.addEventListener("resize", fixTableHeaderColWidth); // Trigger resize handler
+function fixTableHeaderColWidth() {
+    // Get the tbody columns width array
+    let colWidth = Array.prototype.map.call(
+        document.querySelector("#vault-left table tbody tr").children,
+        (td) => `${td.clientWidth}px`,
+    );
+
+    // Set the width of thead columns
+    Array.prototype.forEach.call(
+        document.querySelector("#vault-left table thead tr").children,
+        (th, i) => (th.width = colWidth[i]),
+    );
+}
+
 window.api.receive("pwd_metadata", function (res) {
     let child = table.lastElementChild;
     while (child) {
@@ -59,15 +75,27 @@ window.api.receive("pwd_metadata", function (res) {
         appendTableRow(pwd);
     });
     passwordMetadata = res;
+
+    fixTableHeaderColWidth();
 });
 
 window.api.receive("password_revealed", function (res) {
     let visu = new StPasswordVisu(res);
+    visu.addEventListener("closeMe", () => {
+        rightPanel.replaceChild(new StPasswordEdition(null), rightPanel.firstElementChild);
+    });
     switch (rightPanel.firstElementChild.nodeName) {
         case "ST-PASSWORD-EDITION":
             rightPanel.replaceChild(visu, rightPanel.firstElementChild);
-            visu.addEventListener("closeMe", () => {
-                rightPanel.replaceChild(new StPasswordEdition(), rightPanel.firstElementChild);
+            visu.addEventListener("modifyMe", () => {
+                let edit = new StPasswordEdition(res);
+                rightPanel.replaceChild(edit, rightPanel.firstElementChild);
+                edit.addEventListener("closeMe", (args) => {
+                    window.api.password("reveal", args.detail.id);
+                });
+                edit.addEventListener("cancel", () => {
+                    window.api.password("reveal", res.id);
+                });
             });
             break;
         case "ST-PASSWORD-VISU":

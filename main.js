@@ -104,6 +104,11 @@ ipcMain.on("reveal_pwd", (e, id) => {
     vaultWin.send("password_revealed", pwd);
 });
 
+ipcMain.on("modify_pwd", (e, pwd) => {
+    vault.patchPassword(pwd, mainPassword);
+    vaultWin.send("pwd_metadata", vault.getAllPasswordMetadata(mainPassword));
+});
+
 // ------------------------------------------------------------------
 // -------------------------- AUTO UPDATER --------------------------
 // ------------------------------------------------------------------

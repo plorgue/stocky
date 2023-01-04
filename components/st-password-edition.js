@@ -1,17 +1,15 @@
 export default class StPasswordEdition extends HTMLElement {
     newPasswordEvent = (args) => new CustomEvent("newPassword", { detail: args });
+    closeEvent = (args) => new CustomEvent("closeMe", { detail: args });
+    cancelEvent = new CustomEvent("cancel");
 
     previousLenPwd = 16;
-    constructor() {
+    constructor(passwordModified = null) {
         super();
 
         this.shadow = this.attachShadow({ mode: "open" });
-
-        // "edition", "display", "new"
-        this.state = this.getAttribute("state");
-        if (this.state == null) {
-            this.state = "new";
-        }
+        this.modifyMode = passwordModified != null;
+        this.passwordModified = passwordModified;
 
         const newHTML = `
 <link rel="stylesheet" href="../style/base.css" />
@@ -53,16 +51,38 @@ export default class StPasswordEdition extends HTMLElement {
 		</div>
 	</div>
     <st-input label="Commentaire" hint="blabla" class="block"></st-input>
-    <button id="vault-edit_btn-valid" class="align-self-end">Ajouter</button>
+
+    ${
+        this.modifyMode
+            ? `
+    <button id="vault-edit_btn-cancel" class="align-self-start">Annuler</button>`
+            : ""
+    }
+    <button id="vault-edit_btn-valid" class="align-self-end">${this.modifyMode ? "Appliquer" : "Ajouter"}</button>
 </div>`;
 
         this.shadow.innerHTML = newHTML;
-        if (this.state == "edition") {
-            // eslint-disable-line
+
+        if (this.modifyMode) {
+            this.setInputValueFromLabel("Titre", this.passwordModified.title);
+            this.setInputValueFromLabel("Lien", this.passwordModified.link);
+            this.setInputValueFromLabel("Identifiant", this.passwordModified.username);
+            this.setInputValueFromLabel("Mot de passe", this.passwordModified.password);
+            this.setInputValueFromLabel("Commentaire", this.passwordModified.description);
+
+            this.shadow.getElementById("vault-edit_btn-cancel").addEventListener("click", () => {
+                this.dispatchEvent(this.cancelEvent);
+            });
+        } else {
+            this.setInputValueFromLabel("Titre", "");
+            this.setInputValueFromLabel("Lien", "");
+            this.setInputValueFromLabel("Identifiant", "");
+            this.setInputValueFromLabel("Mot de passe", "");
+            this.setInputValueFromLabel("Commentaire", "");
         }
 
         this.shadow.getElementById("vault-edit_btn-valid").addEventListener("click", () => {
-            if (this.state == "new") {
+            if (!this.modifyMode) {
                 const pwd = {
                     title: this.getInputValueFromLabel("Titre"),
                     link: this.getInputValueFromLabel("Lien"),
@@ -72,6 +92,14 @@ export default class StPasswordEdition extends HTMLElement {
                 };
                 this.dispatchEvent(this.newPasswordEvent(pwd));
                 window.api.password("create", pwd);
+            } else {
+                this.passwordModified.title = this.getInputValueFromLabel("Titre");
+                this.passwordModified.link = this.getInputValueFromLabel("Lien");
+                this.passwordModified.username = this.getInputValueFromLabel("Identifiant");
+                this.passwordModified.password = this.getInputValueFromLabel("Mot de passe");
+                this.passwordModified.description = this.getInputValueFromLabel("Commentaire");
+                window.api.password("modify", this.passwordModified);
+                this.dispatchEvent(this.closeEvent(this.passwordModified));
             }
         });
 
@@ -110,6 +138,10 @@ export default class StPasswordEdition extends HTMLElement {
     }
     getInputValueFromLabel = (label) => {
         return this.shadow.querySelector(`st-input[label='${label}']`).shadowRoot.querySelector("input").value;
+    };
+    setInputValueFromLabel = (label, value) => {
+        // return this.shadow.querySelector(`st-input[label='${label}']`).shadowRoot.querySelector("input").value;
+        this.shadow.querySelector(`st-input[label='${label}']`).setAttribute("new-value", value);
     };
 
     generatePassword = (withMin, withMaj, withNumbers, withSpChar, lenght) => {

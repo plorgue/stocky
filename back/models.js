@@ -106,6 +106,20 @@ class Vault {
         }
     }
 
+    patchPassword(password, mainPassword) {
+        const raw = fs.readFileSync(Vault.listPwdPath);
+        let passwords = JSON.parse(raw);
+        let index = passwords.list.findIndex((pwd) => {
+            if (pwd.id === password.id) return true;
+            return false;
+        });
+        const keepId = password.id;
+        const encryptedPassword = Crypto.encryptJSONValues(password, mainPassword);
+        encryptedPassword.id = keepId;
+        passwords.list.splice(index, 1, encryptedPassword);
+        fs.writeFileSync(Vault.listPwdPath, JSON.stringify(passwords, null, 4));
+    }
+
     synchronize() {}
 }
 

@@ -8,3 +8,5 @@ hash
 .prettierrc
 .husky
 .eslintrc.json
+
+list.json

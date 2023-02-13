@@ -127,6 +127,18 @@ header {
     border-bottom-right-radius: var(--border-radius);
 }
 
+tr.clip_animation {
+    animation: 250ms ease-in-out 2 alternate clip_anim;
+}
+@keyframes clip_anim {
+    from {
+        background-color: var(--light-gray);
+    }
+    to {
+        background-color: #b0c3c6;
+    }
+}
+
 /* SCROLLBAR */
 /* width */
 ::-webkit-scrollbar {

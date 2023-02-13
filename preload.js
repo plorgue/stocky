@@ -4,7 +4,14 @@ contextBridge.exposeInMainWorld("api", {
     // Expose protected methods that allow the renderer process to use
     // the ipcRenderer without exposing the entire object
     send: (channel, data) => {
-        const validChannels = ["app_version", "restart_app", "try_input_password", "default_pwd", "save_new_main"];
+        const validChannels = [
+            "app_version",
+            "restart_app",
+            "try_input_password",
+            "default_pwd",
+            "save_new_main",
+            "clip_password",
+        ];
         if (validChannels.includes(channel)) {
             ipcRenderer.send(channel, data);
         }

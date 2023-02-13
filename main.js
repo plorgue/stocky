@@ -1,4 +1,4 @@
-const { app, BrowserWindow, session, ipcMain } = require("electron");
+const { app, BrowserWindow, session, ipcMain, clipboard } = require("electron");
 const log = require("electron-log");
 const { autoUpdater } = require("electron-updater");
 const path = require("path");
@@ -107,6 +107,11 @@ ipcMain.on("reveal_pwd", (e, id) => {
 ipcMain.on("modify_pwd", (e, pwd) => {
     vault.patchPassword(pwd, mainPassword);
     vaultWin.send("pwd_metadata", vault.getAllPasswordMetadata(mainPassword));
+});
+
+ipcMain.on("clip_password", (e, id) => {
+    let pwd = vault.getPassword(id, mainPassword);
+    clipboard.writeText(pwd.password);
 });
 
 // ------------------------------------------------------------------

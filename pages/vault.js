@@ -16,6 +16,8 @@ let rightPanel = document.getElementById("vault-right");
 
 let currentTableLength = -1;
 let passwordMetadata = [];
+let passwordMetadataFiltered = [];
+let searchFilter = "";
 
 function appendTableRow(pwd) {
     let row = document.createElement("tr");
@@ -37,16 +39,59 @@ function appendTableRow(pwd) {
     table.appendChild(row);
 }
 
+function refreshTable() {
+    let child = table.lastElementChild;
+    while (child) {
+        table.removeChild(child);
+        child = table.lastElementChild;
+    }
+    currentTableLength = -1;
+    passwordMetadataFiltered.forEach((pwd) => {
+        appendTableRow(pwd);
+    });
+
+    fixTableHeaderColWidth();
+}
+
 function handleRowClick(e) {
-    window.api.password("reveal", passwordMetadata[parseInt(e.target.parentNode.getAttribute("row"))].id);
+    window.api.password("reveal", passwordMetadataFiltered[parseInt(e.target.parentNode.getAttribute("row"))].id);
 }
 
 function handleDeleteClick(e) {
     e.stopPropagation();
-    window.api.password("delete", passwordMetadata[parseInt(e.target.parentNode.getAttribute("row"))].id);
+    window.api.password("delete", passwordMetadataFiltered[parseInt(e.target.parentNode.getAttribute("row"))].id);
+}
+
+function handleSearch(e) {
+    e.stopPropagation();
+    searchFilter = e.detail.input;
+    filterPasswordList();
+    refreshTable();
+}
+
+function filterPasswordList() {
+    if (searchFilter.length > 0) {
+        passwordMetadataFiltered = passwordMetadata.filter(
+            (pwd) =>
+                pwd.title.includes(searchFilter) ||
+                pwd.link.includes(searchFilter) ||
+                pwd.description.includes(searchFilter),
+        );
+    } else {
+        passwordMetadataFiltered = passwordMetadata;
+    }
 }
 
 search.shadowRoot.querySelector("input").focus();
+
+search.addEventListener("onTyping", handleSearch);
+search.addEventListener("onPress", () => {
+    window.api.send("clip_password", passwordMetadataFiltered[0].id);
+    document.querySelector("#vault-left > table > tbody > tr:nth-child(1)").classList.add("clip_animation");
+    setTimeout(() => {
+        document.querySelector("#vault-left > table > tbody > tr:nth-child(1)").classList.remove("clip_animation");
+    }, 500);
+});
 
 // Adjust the width of thead cells when window resizes
 window.addEventListener("resize", fixTableHeaderColWidth); // Trigger resize handler
@@ -65,18 +110,9 @@ function fixTableHeaderColWidth() {
 }
 
 window.api.receive("pwd_metadata", function (res) {
-    let child = table.lastElementChild;
-    while (child) {
-        table.removeChild(child);
-        child = table.lastElementChild;
-    }
-    currentTableLength = -1;
-    res.forEach((pwd) => {
-        appendTableRow(pwd);
-    });
     passwordMetadata = res;
-
-    fixTableHeaderColWidth();
+    filterPasswordList();
+    refreshTable();
 });
 
 window.api.receive("password_revealed", function (res) {

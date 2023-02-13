@@ -25,6 +25,7 @@
         "prettier": "^2.8.0"
     },
     "dependencies": {
+        "clipboardy": "^3.0.0",
         "crypto-js": "^4.1.1",
         "electron-log": "^4.4.1",
         "electron-updater": "^4.3.9",

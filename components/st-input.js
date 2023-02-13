@@ -1,6 +1,6 @@
 export default class StInput extends HTMLElement {
     pressEvent = new CustomEvent("onPress");
-    typingEvent = new CustomEvent("onTyping");
+    typingEvent = (text) => new CustomEvent("onTyping", { detail: { input: text } });
 
     static get observedAttributes() {
         return ["new-value"];
@@ -45,7 +45,7 @@ ${this.label !== null ? labelHTML : ""}
             }
         });
         input.addEventListener("input", (e) => {
-            this.dispatchEvent(this.typingEvent);
+            this.dispatchEvent(this.typingEvent(input.value));
             this.handlerValueChange(input.value);
             e.preventDefault();
         });

@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld("api", {
             "default_pwd",
             "save_new_main",
             "clip_password",
+            "auto-lock-toggle",
         ];
         if (validChannels.includes(channel)) {
             ipcRenderer.send(channel, data);
@@ -27,6 +28,7 @@ contextBridge.exposeInMainWorld("api", {
             "wrong_input_password",
             "pwd_metadata",
             "password_revealed",
+            "reset_main_pwd_input",
         ];
         if (validChannels.includes(channel)) {
             // Deliberately strip event as it includes `sender`

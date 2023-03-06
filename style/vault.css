@@ -18,13 +18,19 @@ header {
     font-weight: bold;
     padding: 4px 12px;
 }
+#vault-auto-lock:hover {
+    cursor: pointer;
+}
+#vault-auto-lock:hover .tag {
+    font-size: 0.82rem;
+}
 #vault-auto-lock .tag {
     border-radius: 6px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     padding: 2px 5px;
     position: relative;
     bottom: 1px;
-    vertical-align: baseline;
+    vertical-align: middle;
     margin-left: 0.5rem;
     color: var(--background);
 }

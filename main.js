@@ -11,8 +11,10 @@ log.info("App starting...");
 let boltWin;
 let vaultWin;
 let vault = new Vault();
+let expireSessionTimeout;
+let autoLockDelay = 20 * 1000;
 
-function initWindow(url, maximaize = false, devTool = false) {
+function initWindow(url, maximize = false, devTool = false) {
     const newWin = new BrowserWindow({
         webPreferences: {
             preload: path.join(__dirname, "preload.js"), // eslint-disable-line
@@ -25,10 +27,16 @@ function initWindow(url, maximaize = false, devTool = false) {
     });
 
     if (devTool) newWin.webContents.openDevTools();
-    if (maximaize) newWin.maximize();
+    if (maximize) newWin.maximize();
     newWin.setMenu(null);
     newWin.loadURL(url);
     return newWin;
+}
+
+function closeSession() {
+    vaultWin.close();
+    boltWin.send("reset_main_pwd_input");
+    boltWin.show();
 }
 
 app.on("ready", function () {
@@ -75,6 +83,8 @@ ipcMain.on("try_input_password", (_, input_password) => {
         vaultWin.on("ready-to-show", function () {
             vaultWin.webContents.send("pwd_metadata", passwordMetadata);
         });
+
+        expireSessionTimeout = setTimeout(closeSession, autoLockDelay);
     } else {
         log.info("Wrong main password");
         boltWin.webContents.send("wrong_input_password", result);
@@ -112,6 +122,14 @@ ipcMain.on("modify_pwd", (e, pwd) => {
 ipcMain.on("clip_password", (e, id) => {
     let pwd = vault.getPassword(id, mainPassword);
     clipboard.writeText(pwd.password);
+});
+
+ipcMain.on("auto-lock-toggle", (e, state) => {
+    if (state) {
+        expireSessionTimeout = setTimeout(closeSession, autoLockDelay);
+    } else {
+        clearTimeout(expireSessionTimeout);
+    }
 });
 
 // ------------------------------------------------------------------

@@ -74,3 +74,6 @@ window.api.receive("default_pwd", function (res) {
         button.innerText = "Ouvrir";
     }
 });
+window.api.receive("reset_main_pwd_input", function () {
+    input.shadowRoot.querySelector("input").value = "";
+});

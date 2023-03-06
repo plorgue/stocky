@@ -13,6 +13,7 @@ let search = document.getElementById("vault-search");
 let table = document.querySelector("#vault-left table tbody");
 // let passwordEditor = document.querySelector("st-password-edition");
 let rightPanel = document.getElementById("vault-right");
+let autoCloseBtn = document.getElementById("vault-auto-lock");
 
 let currentTableLength = -1;
 let passwordMetadata = [];
@@ -91,6 +92,16 @@ search.addEventListener("onPress", () => {
     setTimeout(() => {
         document.querySelector("#vault-left > table > tbody > tr:nth-child(1)").classList.remove("clip_animation");
     }, 500);
+});
+
+autoCloseBtn.addEventListener("click", () => {
+    if (autoCloseBtn.querySelector(".tag").classList.contains("on")) {
+        window.api.send("auto-lock-toggle", false);
+        autoCloseBtn.querySelector(".tag").classList.replace("on", "off");
+    } else {
+        window.api.send("auto-lock-toggle", true);
+        autoCloseBtn.querySelector(".tag").classList.replace("off", "on");
+    }
 });
 
 // Adjust the width of thead cells when window resizes

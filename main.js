@@ -68,7 +68,7 @@ ipcMain.on("default_pwd", () => {
     boltWin.webContents.send("default_pwd", !Vault.existsMainPwd());
 });
 
-ipcMain.on("try_input_password", (_, input_password) => {
+ipcMain.on("try_input_password", async (_, input_password) => {
     const result = vault.tryInputPassword(input_password);
     if (result) {
         log.info("Valid main password");
@@ -77,8 +77,12 @@ ipcMain.on("try_input_password", (_, input_password) => {
         boltWin.hide();
 
         mainPassword = input_password;
-
         let passwordMetadata = vault.getAllPasswordMetadata(input_password);
+        try {
+            passwordMetadata = await vault.synchronizeWithRemote(passwordMetadata);
+        } catch (e) {
+            console.error(e);
+        }
 
         vaultWin.on("ready-to-show", function () {
             vaultWin.webContents.send("pwd_metadata", passwordMetadata);

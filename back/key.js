@@ -50,8 +50,4 @@ class Crypto {
     }
 }
 
-class Encryptor {}
-
-class Decryptor {}
-
-module.exports = { Crypto, Encryptor, Decryptor };
+module.exports = { Crypto };

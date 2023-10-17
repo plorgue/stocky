@@ -25,10 +25,12 @@
         "prettier": "^2.8.0"
     },
     "dependencies": {
+        "@google-cloud/local-auth": "^3.0.0",
         "clipboardy": "^3.0.0",
         "crypto-js": "^4.1.1",
         "electron-log": "^4.4.1",
         "electron-updater": "^4.3.9",
+        "googleapis": "^127.0.0",
         "uuid": "^9.0.0"
     },
     "build": {

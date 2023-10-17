@@ -1,5 +1,6 @@
 const fs = require("fs");
 const { Crypto } = require("./key.js");
+const { authenticate, retrieveFile, saveFile } = require("./remote.js");
 const { v4: uuidv4 } = require("uuid");
 
 // class Password {
@@ -70,6 +71,7 @@ class Vault {
 
     addPassword(password, mainPassword) {
         // TODO: assert mainpassword !== null
+        password.updatedAt = new Date().toISOString();
         let secret = Crypto.encryptJSONValues(password, mainPassword);
         secret.id = uuidv4();
 
@@ -114,13 +116,65 @@ class Vault {
             return false;
         });
         const keepId = password.id;
+        password.updatedAt = new Date().toISOString();
         const encryptedPassword = Crypto.encryptJSONValues(password, mainPassword);
         encryptedPassword.id = keepId;
         passwords.list.splice(index, 1, encryptedPassword);
         fs.writeFileSync(Vault.listPwdPath, JSON.stringify(passwords, null, 4));
     }
 
-    synchronize() {}
+    async synchronizeWithRemote(passwordMetadata, mainPassword) {
+        let localNewToBeSaved = false;
+        let remoteNewToBeSaved = false;
+        const oauth2Client = await authenticate();
+        const remoteJson = JSON.parse(await retrieveFile(oauth2Client));
+        const remotePasswordMetadata = [];
+        remoteJson["list"].forEach((pwdC) => {
+            let pwd = Crypto.decryptJSONValuesWithKeys(pwdC, mainPassword, Vault.tableColumns);
+            pwd.id = pwdC.id;
+            remotePasswordMetadata.push(pwd);
+        });
+        const [remoteIdUpdated, remoteIdValue] = remotePasswordMetadata.list.reduce(
+            (acc, pwd) => {
+                acc[0][pwd.id] = pwd.updatedAt;
+                acc[1][pwd.id] = pwd;
+                return acc;
+            },
+            [{}, {}],
+        );
+
+        let localIds = [];
+        passwordMetadata = passwordMetadata.map((pwd) => {
+            localIds.push(pwd.id);
+            if (Object.keys(remoteIdUpdated).includes(pwd.id)) {
+                if (new Date(pwd.updatedAt) > new Date(remoteIdUpdated[pwd.id])) {
+                    remoteNewToBeSaved = true || newFromLocal.length > 0;
+                    return pwd;
+                } else if (pwd.updatedAt < remoteIdUpdated[pwd.id]) {
+                    localNewToBeSaved = true || newFromRemote.length > 0;
+                    return remoteIdValue[pwd.id];
+                } else {
+                    return pwd;
+                }
+            }
+        });
+
+        const newFromRemote = remotePasswordMetadata.filter((pwd) => !localIds.includes(pwd.id));
+        localNewToBeSaved = true || newFromRemote.length > 0;
+
+        const newFromLocal = passwordMetadata.filter((pwd) => !Object.keys(remoteIdUpdated).includes(pwd.id));
+        remoteNewToBeSaved = true || newFromLocal.length > 0;
+
+        if (remoteNewToBeSaved) {
+            // TODO: encrypt id/updated_at
+            await saveFile(oauth2Client, JSON.stringify({ list: passwordMetadata }, null, 4));
+        }
+        if (localNewToBeSaved) {
+            // TODO: encrypt id/updated_at
+            fs.writeFileSync(Vault.listPwdPath, JSON.stringify({ list: passwordMetadata }, null, 4));
+        }
+        return passwordMetadata.concat(newFromRemote);
+    }
 }
 
 module.exports = { Vault };
